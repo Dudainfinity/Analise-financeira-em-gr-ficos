@@ -13,13 +13,14 @@ CURRENCIES = [
 
 
         CURRENCIES.each do |currency|
-            url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/30")
-            response = Net::HTTP.get(url)
-            data = JSON.parse(response)
+            uri = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/30")
+            response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+                http.get(uri.request_uri)
+            end
+            data = JSON.parse(response.body)
 
             hash = {}
 
-            # A API pode retornar Hash de erro em vez de Array — ignorar nesses casos
             if data.is_a?(Array)
                 data.each do |entry|
                     next unless entry.is_a?(Hash)
