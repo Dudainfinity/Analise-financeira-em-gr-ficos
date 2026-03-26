@@ -20,6 +20,13 @@ Aplicação Rails para visualizar cotações de moedas em gráficos, consumindo 
 - Chart.js
 - SQLite
 
+
+
+## Acesso ao projeto:
+https://analise-financeira-em-gr-ficos.onrender.com/
+
+
+
 ## Fonte dos dados
 
 - API: `https://economia.awesomeapi.com.br/`
