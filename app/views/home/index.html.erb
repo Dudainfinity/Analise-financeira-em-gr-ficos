@@ -1,0 +1,40 @@
+<h1 style="font-size: 48px; text-align: center;">
+  Analise financeira em gráficos
+</h1>
+
+<div style="margin-bottom: 16px;">
+    <strong>Visualização:</strong>
+    <button type="button" data-view-toggle="line" style="margin-left: 8px;">Linha</button>
+    <button type="button" data-view-toggle="column" style="margin-left: 6px;">Coluna</button>
+</div>
+
+<% @chart_data.each do |chart| %>
+    <div style="margin-bottom: 24px;">
+        <h3><%= chart[:name] %></h3>
+                <div data-chart-view="line">
+                    <%= line_chart [{ name: chart[:name], data: chart[:data] }], discrete: true, colors: [chart[:color]] %>
+                </div>
+                <div data-chart-view="column" style="display: none;">
+                    <%= column_chart [{ name: chart[:name], data: chart[:data] }], discrete: true, colors: [chart[:color]] %>
+                </div>
+   </div>    
+<% end %>
+
+<script>
+    document.addEventListener("turbo:load", function () {
+        const toggles = document.querySelectorAll("[data-view-toggle]");
+        const charts = document.querySelectorAll("[data-chart-view]");
+
+        function setView(view) {
+            charts.forEach(function (chart) {
+                chart.style.display = chart.dataset.chartView === view ? "block" : "none";
+            });
+        }
+
+        toggles.forEach(function (button) {
+            button.addEventListener("click", function () {
+                setView(button.dataset.viewToggle);
+            });
+        });
+    });
+</script>
