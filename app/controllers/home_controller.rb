@@ -17,13 +17,19 @@ CURRENCIES = [
             response = Net::HTTP.get(url)
             data = JSON.parse(response)
 
-
             hash = {}
-            data.each do |entry|
-                date = Time.at(entry["timestamp"].to_i).strftime("%d/%m/%Y")
-                rate = entry["high"].to_f
 
-                hash[date] = rate
+            # A API pode retornar Hash de erro em vez de Array — ignorar nesses casos
+            if data.is_a?(Array)
+                data.each do |entry|
+                    next unless entry.is_a?(Hash)
+                    next if entry["timestamp"].nil? || entry["high"].nil?
+
+                    date = Time.at(entry["timestamp"].to_i).strftime("%d/%m/%Y")
+                    rate = entry["high"].to_f
+
+                    hash[date] = rate
+                end
             end
 
             @chart_data << {
