@@ -53,7 +53,8 @@ class HomeController < ApplicationController
                 name: currency[:name],
                 code: currency[:code],
                 color: currency[:color],
-                data: hash
+                data: hash,
+                data_7days: hash.last(7).to_h
             }
     end
     end

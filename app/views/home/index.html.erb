@@ -15,7 +15,7 @@
                     <%= line_chart [{ name: chart[:name], data: chart[:data] }], discrete: true, colors: [chart[:color]] %>
                 </div>
                 <div data-chart-view="column" style="display: none;">
-                    <%= column_chart [{ name: chart[:name], data: chart[:data] }], discrete: true, colors: [chart[:color]] %>
+                    <%= column_chart [{ name: chart[:name], data: chart[:data_7days] }], discrete: true, colors: [chart[:color]] %>
                 </div>
    </div>    
 <% end %>
