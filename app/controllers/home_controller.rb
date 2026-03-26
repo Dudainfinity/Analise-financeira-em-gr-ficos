@@ -43,9 +43,11 @@ class HomeController < ApplicationController
 
 
         CURRENCIES.each do |currency|
-            hash = Rails.cache.fetch("currency-history:#{currency[:code]}", expires_in: 30.minutes) do
+            hash = Rails.cache.fetch("currency-history:v2:#{currency[:code]}", expires_in: 30.minutes) do
                 fetch_currency_data(currency[:code])
             end
+
+            hash = FALLBACK_DATA.fetch(currency[:code], {}) if hash.blank?
 
             @chart_data << {
                 name: currency[:name],
