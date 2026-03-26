@@ -41,8 +41,9 @@ class HomeController < ApplicationController
     def index
         @chart_data = []
 
+
         CURRENCIES.each do |currency|
-            hash = Rails.cache.fetch("currency-history-v3:#{currency[:code]}", expires_in: 30.minutes) do
+            hash = Rails.cache.fetch("currency-history:v2:#{currency[:code]}", expires_in: 30.minutes) do
                 fetch_currency_data(currency[:code])
             end
 
@@ -52,9 +53,10 @@ class HomeController < ApplicationController
                 name: currency[:name],
                 code: currency[:code],
                 color: currency[:color],
-                data: hash
+                data: hash,
+                data_7days: hash.to_a.last(7).to_h
             }
-        end
+    end
     end
 
     private
